@@ -11,7 +11,10 @@ image:
 
 persistence:
   enabled: true
-  size: 1Gi
+  cephMonitors: []
+  cephPath: /kube
+  cephSecret: kube-ceph-secret
+  cephUser: kube
 
 service:
   type: ClusterIP
