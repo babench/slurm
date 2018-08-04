@@ -64,8 +64,15 @@ spec:
           name: {{ template "fileshare.fullname" . }}
       - name: data
       {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "fileshare.fullname" . }}
+        cephfs:
+          monitors:
+          {{- range .Values.persistence.cephMonitors }}
+          - {{ . }}
+          {{- end }}
+          path: {{ .Values.persistence.cephfsPath }}
+          secretRef:
+            name: {{ .Values.persistence.cephSecret }}
+          user: {{ .Values.persistence.cephUser }}
       {{- else }}
         emptyDir: {}
       {{- end -}}
